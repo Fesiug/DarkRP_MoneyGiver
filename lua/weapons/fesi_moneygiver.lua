@@ -37,7 +37,6 @@ function SWEP:GetVM()
 end
 
 function SWEP:EZAnim( seqname, rate )
-	print(self:GetVM():GetModel())
 	self:GetVM():SendViewModelMatchingSequence( self:GetVM():LookupSequence( seqname ) )
 	self:GetVM():SetPlaybackRate( rate or 1 )
 end
@@ -60,7 +59,6 @@ function SWEP:SecondaryAttack()
 		if CLIENT and IsFirstTimePredicted() then
 			if self.CheckFor:IsValid() then
 				local recip = "" .. self.CheckFor:Nick() .. ""
-				print(self.CheckFor, self.CheckFor:Nick(), recip, self.Amount)
 				RunConsoleCommand( "darkrp", "check", recip, self.Amount )
 			else
 				RunConsoleCommand( "darkrp", "dropmoney", self.Amount )
