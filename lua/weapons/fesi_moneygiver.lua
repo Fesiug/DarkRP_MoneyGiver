@@ -116,7 +116,7 @@ function SWEP:Reload()
 		combo:DockMargin( 0, 0, 0, s(4) )
 		combo:AddChoice( "*none*", NULL )
 		-- for _, ply in player.Iterator() do
-		for _, ply in ipairs( players.GetAll() ) do
+		for _, ply in ipairs( player.GetAll() ) do
 			combo:AddChoice( ply:Nick(), ply )
 		end
 
