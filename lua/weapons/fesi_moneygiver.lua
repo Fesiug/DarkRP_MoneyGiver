@@ -14,11 +14,9 @@ SWEP.Slot = 1
 SWEP.ViewModel = "models/weapons/fesi_moneygiver4.mdl"
 SWEP.ViewModelFOV = 75
 SWEP.UseHands = true
-SWEP.WorldModel = "models/weapons/w_crowbar.mdl"
+SWEP.WorldModel = "models/weapons/fesi_moneygiver_wmodel1.mdl"
 
 SWEP.m_WeaponDeploySpeed = 10
-
-SWEP.HoldType = "slam"
 
 SWEP.Primary.Ammo = "none"
 SWEP.Primary.ClipSize = -1
@@ -29,6 +27,10 @@ SWEP.Secondary.Ammo = "none"
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
 SWEP.Secondary.Automatic = true
+
+function SWEP:SetupDataTables()
+	self:NetworkVar( "Float", 0, "Delay" )
+end
 
 function SWEP:GetVM()
 	return self:GetOwner():GetViewModel()
@@ -41,8 +43,9 @@ function SWEP:EZAnim( seqname, rate )
 end
 
 function SWEP:PrimaryAttack()
-	if self:GetOwner():KeyPressed( IN_ATTACK ) then
+	if self:GetDelay() <= CurTime() and self:GetOwner():KeyPressed( IN_ATTACK ) then
 		self:EZAnim( "fire" )
+		self:SetDelay( CurTime() + 1 )
 		if CLIENT and IsFirstTimePredicted() then
 			RunConsoleCommand( "darkrp", "give", (self.Amount) )
 		end
@@ -51,8 +54,9 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-	if self:GetOwner():KeyPressed( IN_ATTACK2 ) then
+	if self:GetDelay() <= CurTime() and self:GetOwner():KeyPressed( IN_ATTACK2 ) then
 		self:EZAnim( "fire" )
+		self:SetDelay( CurTime() + 1 )
 		if CLIENT and IsFirstTimePredicted() then
 			if self.CheckFor:IsValid() then
 				local recip = "" .. self.CheckFor:Nick() .. ""
@@ -141,6 +145,7 @@ function SWEP:Deploy()
 		self.CheckFor = NULL
 	end
 	self:EZAnim( "draw", 1 )
+	self:SetHoldType("slam")
 	return true
 end
 
