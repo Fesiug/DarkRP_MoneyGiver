@@ -43,9 +43,9 @@ function SWEP:EZAnim( seqname, rate )
 end
 
 function SWEP:PrimaryAttack()
-	if self:GetDelay() <= CurTime() and self:GetOwner():KeyPressed( IN_ATTACK ) then
+	if self:GetDelay() <= CurTime() then
 		self:EZAnim( "fire" )
-		self:SetDelay( CurTime() + 1 )
+		self:SetDelay( CurTime() + 1.5 )
 		if CLIENT and IsFirstTimePredicted() then
 			RunConsoleCommand( "darkrp", "give", (self.Amount) )
 		end
@@ -54,9 +54,9 @@ function SWEP:PrimaryAttack()
 end
 
 function SWEP:SecondaryAttack()
-	if self:GetDelay() <= CurTime() and self:GetOwner():KeyPressed( IN_ATTACK2 ) then
+	if self:GetDelay() <= CurTime() then
 		self:EZAnim( "fire" )
-		self:SetDelay( CurTime() + 1 )
+		self:SetDelay( CurTime() + 1.5 )
 		if CLIENT and IsFirstTimePredicted() then
 			if self.CheckFor:IsValid() then
 				local recip = "" .. self.CheckFor:Nick() .. ""
